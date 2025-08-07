@@ -1,4 +1,4 @@
-{ config, macPkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   # nix needs to know some basic info
@@ -6,11 +6,12 @@
   home.homeDirectory = "/Users/yeyee2901";
   home.stateVersion = "25.11";
 
-  home.packages = with mackPkgs; [
+  home.packages = with pkgs; [
     go
     nodejs
     lazygit
     fzf
+    rustc
   ];
 
   programs.home-manager.enable = true;
@@ -38,7 +39,27 @@
       ll = "ls -l";
       la = "ls -la";
       lg = "lazygit";
+      vi = "nvim";
+      vim = "nvim";
     };
+
+    initContent = ''
+    # PATHS environment variable
+    export PATH=$PATH:/opt/homebrew/bin
+    export PATH=$PATH:$HOME/go/bin
+    export PATH=$PATH:$HOME/bin
+
+    # PATH for npm
+    export NPM_PACKAGES=$HOME/.npm-packages
+    export NODE_PATH=$NPM_PACKAGES/lib/node_modules:$NODE_PATH
+    export PATH=$NPM_PACKAGES/bin:$PATH
+
+    # aliases
+    export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+    export PATH=$PATH:/opt/homebrew/Cellar/openvpn/2.6.0/sbin
+
+    echo "prefix=$HOME/.npm-packages" > $HOME/.npmrc
+    '';
   };
 
   programs.tmux = {
@@ -47,7 +68,7 @@
     keyMode = "vi";
     mouse = true;
     
-    plugins = with macPkgs.tmuxPlugins; [
+    plugins = with pkgs.tmuxPlugins; [
       {
         plugin = resurrect;
       }
@@ -200,9 +221,6 @@
 
   programs.neovim = {
     enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
   };
 
   programs.fzf = {

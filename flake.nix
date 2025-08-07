@@ -11,26 +11,14 @@
 
   outputs = { self, nixpkgs, home-manager }:
     let
-      system = "x86_64-darwin";
-      macPkgs = nixpkgs.legacyPackages.${system};
+      system = "aarch64-darwin";
+      pkgs = nixpkgs.legacyPackages.${system};
     in
     {
       homeConfigurations."ikan-yeyee-mac" = home-manager.lib.homeManagerConfiguration {
-        inherit macPkgs;
+        inherit pkgs;
         modules = [
           ./home.nix
-        ];
-      };
-
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          go
-          tmux
-          neovim
-          lazygit
-          fzf
-          zsh
-          nodejs
         ];
       };
     };
