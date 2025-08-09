@@ -11,10 +11,6 @@ cd "<repo-name>"
 home-manager switch --flake .#ikan-yeyee-mac
 ```
 
-```
-
-```
-
 \*Note: Currently only has Mac configuration, linux will be coming soon.
 
 # Capabilities
@@ -38,8 +34,4 @@ home.packages = with pkgs; [
   rustc
   python312
 ];
-```
-
-```
-
 ```
